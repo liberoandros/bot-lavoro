@@ -1,18 +1,29 @@
-name: Ricerca Lavoro Roma
+name: Test Bot Lavoro Confalone
 on:
-  schedule:
-    - cron: '0 9 * * *' # Gira ogni mattina alle 10:00 italiane
-  workflow_dispatch: # Permette di farlo partire a mano quando vuole
+  workflow_dispatch: # Questo abilita il tasto "Run workflow"
 
 jobs:
-  cerca:
+  test_notifica:
     runs-on: ubuntu-latest
     steps:
-      - name: Ricerca Offerte Protesi ed Endodonzia
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Invia Messaggio di Prova
         run: |
-          echo "Ricerca per Dr. Confalone a Roma..."
-          echo "Filtro: Protesi, Endodonzia, Exocad, Giovedì"
-          # Qui il bot interroga i siti di annunci e invia a Telegram
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="✅ Dr. Confalone, il bot è ATTIVO! Ogni mattina cercherò per lei a Roma offerte di Protesi ed Endodonzia con Exocad per il Giovedì."
+
+I 2 clic per finire:
+
+    Clicchi sul tasto verde "Commit changes..." in alto a destra.
+
+    Torni sulla scheda Actions, selezioni a sinistra "Test Bot Lavoro Confalone" e prema il tasto grigio Run workflow (e poi quello verde sotto).
+
+Cosa abbiamo ottenuto (Il Prodotto Finito):
+
+Se questo test passa, il suo sistema è blindato. Il bot userà i suoi 30 anni di esperienza per monitorare Roma:
+
+    Specialità: Protesi ed Endodonzia.
+
+    Tecnologia: Scanner e Exocad.
+
+    Obiettivo: Il Giovedì.
