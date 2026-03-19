@@ -1,0 +1,18 @@
+name: Ricerca Lavoro Roma
+on:
+  schedule:
+    - cron: '0 9 * * *' # Gira ogni mattina alle 10:00 italiane
+  workflow_dispatch: # Permette di farlo partire a mano quando vuole
+
+jobs:
+  cerca:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ricerca Offerte Protesi ed Endodonzia
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          echo "Ricerca per Dr. Confalone a Roma..."
+          echo "Filtro: Protesi, Endodonzia, Exocad, Giovedì"
+          # Qui il bot interroga i siti di annunci e invia a Telegram
