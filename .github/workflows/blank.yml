@@ -1,29 +1,24 @@
-name: Test Bot Lavoro Confalone
+name: Bot Lavoro Roma
+
 on:
-  workflow_dispatch: # Questo abilita il tasto "Run workflow"
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
 
 jobs:
-  test_notifica:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Invia Messaggio di Prova
+      - name: Ricerca Roma
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="✅ Dr. Confalone, il bot è ATTIVO! Ogni mattina cercherò per lei a Roma offerte di Protesi ed Endodonzia con Exocad per il Giovedì."
+          python -c "
+          import requests
+          import os
 
-I 2 clic per finire:
-
-    Clicchi sul tasto verde "Commit changes..." in alto a destra.
-
-    Torni sulla scheda Actions, selezioni a sinistra "Test Bot Lavoro Confalone" e prema il tasto grigio Run workflow (e poi quello verde sotto).
-
-Cosa abbiamo ottenuto (Il Prodotto Finito):
-
-Se questo test passa, il suo sistema è blindato. Il bot userà i suoi 30 anni di esperienza per monitorare Roma:
-
-    Specialità: Protesi ed Endodonzia.
-
-    Tecnologia: Scanner e Exocad.
-
-    Obiettivo: Il Giovedì.
+          msg = '✅ Dr. Confalone, assistente attivo per Roma: Implantologia guidata, Protesi e Piccola chirurgia (Giovedì).'
+          url = f'https://api.telegram.org/bot{os.environ[\"TELEGRAM_TOKEN\"]}/sendMessage?chat_id={os.environ[\"CHAT_ID\"]}&text={msg}'
+          requests.get(url)
+          "
